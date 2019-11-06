@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useReducer } from "react";
 import moment from "moment";
 import Week from "../../components/Week";
 
@@ -7,11 +7,37 @@ interface IDataValue {
   date: string[];
 }
 
+type stateType = {
+  date: string;
+  description: string;
+};
+
+type actionType = {
+  name: string;
+  value: string;
+};
+
+const reducer = (state: stateType, action: actionType) => {
+  return {
+    ...state,
+    [action.name]: action.value
+  };
+};
+
 const Calendar: React.FC = () => {
   // 날짜 선택
   const [selectedDate, setDate] = useState("");
   const clickDate = (day: string): void => {
     setDate(day);
+  };
+
+  // 날짜 선택 후 정보 저장
+  const [state, dispatch] = useReducer(reducer, {
+    date: "",
+    description: ""
+  });
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    dispatch(e.target);
   };
 
   // 오늘로부터 9주전의 날짜들 가져오기
