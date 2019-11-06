@@ -4,6 +4,8 @@ interface IDayProps {
   x: number;
   y: number;
   fill: string;
+  stroke: string;
+  onClick: () => void;
 }
 
 const Day: React.FC<IDayProps> = props => {
