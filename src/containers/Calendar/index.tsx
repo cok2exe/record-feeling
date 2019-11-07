@@ -8,7 +8,7 @@ interface IDataValue {
 }
 
 type stateType = {
-  date: string;
+  color: string;
   description: string;
 };
 
@@ -26,17 +26,24 @@ const reducer = (state: stateType, action: actionType) => {
 
 const Calendar: React.FC = () => {
   // 날짜 선택
-  const [selectedDate, setDate] = useState("");
+  const [selectedDate, setDate] = useState(moment().format("YYYY-MM-DD"));
   const clickDate = (day: string): void => {
     setDate(day);
   };
 
   // 날짜 선택 후 정보 저장
   const [state, dispatch] = useReducer(reducer, {
-    date: "",
+    color: "",
     description: ""
   });
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+  const handleChangeForInput = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ): void => {
+    dispatch(e.target);
+  };
+  const handleChangeForTextArea = (
+    e: React.ChangeEvent<HTMLTextAreaElement>
+  ): void => {
     dispatch(e.target);
   };
 
@@ -75,7 +82,38 @@ const Calendar: React.FC = () => {
         selectedDate={selectedDate}
         clickDate={clickDate}
       />
-      <div>선택된 날짜: {selectedDate}</div>
+      <div className="calendar__input">
+        <div className="calendar__select-date">
+          <label htmlFor="select_date">선택된 날짜</label>
+          <input
+            type="text"
+            name="date"
+            id="select_date"
+            value={selectedDate}
+            readOnly
+          />
+        </div>
+        <div className="calendar__select-date-color">
+          <label htmlFor="select_date_color">색상 설정</label>
+          <input
+            type="text"
+            name="color"
+            value={state.color}
+            onChange={handleChangeForInput}
+          />
+        </div>
+        <div className="calendar__select-date-description">
+          <label htmlFor="select_date_description">
+            기분이 어떤가요? (옵션)
+          </label>
+          <textarea
+            name="description"
+            id="select_date_description"
+            value={state.description}
+            onChange={handleChangeForTextArea}
+          />
+        </div>
+      </div>
     </div>
   );
 };
