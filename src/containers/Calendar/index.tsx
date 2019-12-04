@@ -26,7 +26,9 @@ const reducer = (state: stateType, action: actionType) => {
 
 const Calendar: React.FC = () => {
   // 날짜 선택
-  const [selectedDate, setDate] = useState(moment().format("YYYY-MM-DD"));
+  const [selectedDate, setDate] = useState<string>(
+    moment().format("YYYY-MM-DD")
+  );
   const clickDate = (day: string): void => {
     setDate(day);
   };
