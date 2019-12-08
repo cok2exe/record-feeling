@@ -5,7 +5,7 @@ import Day from "../Day";
 interface IWeekProps {
   period: IDataValue[];
   selectedDate: string;
-  clickDate: (day: string) => void;
+  setDate: (day: string) => void;
 }
 
 interface IDataValue {
@@ -13,7 +13,7 @@ interface IDataValue {
   date: string[];
 }
 
-const Week: React.FC<IWeekProps> = ({ period, selectedDate, clickDate }) => {
+const Week: React.FC<IWeekProps> = ({ period, selectedDate, setDate }) => {
   return (
     <svg className="week">
       {period.map(week => (
@@ -32,7 +32,7 @@ const Week: React.FC<IWeekProps> = ({ period, selectedDate, clickDate }) => {
                   ? "red"
                   : ""
               }
-              onClick={() => clickDate(day)}
+              onClick={() => setDate(day)}
             />
           ))}
         </g>

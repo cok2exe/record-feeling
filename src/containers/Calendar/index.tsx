@@ -7,6 +7,12 @@ interface IDataValue {
   date: string[];
 }
 
+interface IFeelingValue {
+  date: string;
+  color: string;
+  description: string;
+}
+
 type stateType = {
   color: string;
   description: string;
@@ -25,13 +31,15 @@ const reducer = (state: stateType, action: actionType) => {
 };
 
 const Calendar: React.FC = () => {
+  const [data, setData] = useState<IFeelingValue>({
+    date: "",
+    color: "",
+    description: ""
+  });
   // 날짜 선택
   const [selectedDate, setDate] = useState<string>(
     moment().format("YYYY-MM-DD")
   );
-  const clickDate = (day: string): void => {
-    setDate(day);
-  };
 
   // 날짜 선택 후 정보 저장
   const [state, dispatch] = useReducer(reducer, {
@@ -77,12 +85,20 @@ const Calendar: React.FC = () => {
     return acc;
   }, []);
 
+  const setFeeling = ():void => {
+    setData({
+      date: selectedDate,
+      color: state.color,
+      description: state.description
+    })
+  };
+
   return (
     <div className="App">
       <Week
         period={_period}
         selectedDate={selectedDate}
-        clickDate={clickDate}
+        setDate={setDate}
       />
       <div className="calendar__input">
         <div className="calendar__select-date">
@@ -115,6 +131,10 @@ const Calendar: React.FC = () => {
             onChange={handleChangeForTextArea}
           />
         </div>
+
+        <button onClick={setFeeling}>submit</button>
+
+        {data.date} {data.color} {data.description}
       </div>
     </div>
   );
