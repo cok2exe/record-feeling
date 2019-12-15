@@ -1,5 +1,6 @@
 import React, { useState, useReducer } from "react";
 import moment from "moment";
+import { TextField, Button } from '@material-ui/core'
 import Week from "../../components/Week";
 
 interface IDataValue {
@@ -100,42 +101,43 @@ const Calendar: React.FC = () => {
         selectedDate={selectedDate}
         setDate={setDate}
       />
-      <div className="calendar__input">
-        <div className="calendar__select-date">
-          <label htmlFor="select_date">선택된 날짜</label>
-          <input
-            type="text"
-            name="date"
+      <form className="calendar__input" onSubmit={setFeeling}>
+        <form className="calendar__select-date">
+          <TextField
             id="select_date"
+            label="선택된 날짜"
+            name="date"
             value={selectedDate}
-            readOnly
+            InputProps={{
+              readOnly: true,
+            }}
           />
-        </div>
+        </form>
         <div className="calendar__select-date-color">
-          <label htmlFor="select_date_color">색상 설정</label>
-          <input
-            type="text"
+          <TextField
+            id="select_date_color"
+            label="색상 설정"
             name="color"
             value={state.color}
             onChange={handleChangeForInput}
           />
         </div>
         <div className="calendar__select-date-description">
-          <label htmlFor="select_date_description">
-            기분이 어떤가요? (옵션)
-          </label>
-          <textarea
-            name="description"
+          <TextField
             id="select_date_description"
+            label="기분이 어떤가요? (옵션)"
+            multiline
+            rows="4"
+            name="description"
             value={state.description}
             onChange={handleChangeForTextArea}
           />
         </div>
 
-        <button onClick={setFeeling}>submit</button>
+        <Button type="submit" variant="contained" color="primary">submit</Button>
 
         {data.date} {data.color} {data.description}
-      </div>
+      </form>
     </div>
   );
 };
